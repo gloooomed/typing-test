@@ -8,16 +8,15 @@ This web app gives you a random passage to type. As you type, it shows your word
 
 ## Files
 
-- `index.html` — The main webpage layout.
-- `styles.css` — All the colors, fonts, and design.
-- `script.js` — The logic that makes everything work.
+- `index.html` - The main webpage layout.
+- `styles.css` - All the colors, fonts, and design.
+- `script.js` - The logic that makes everything work.
 
 ## Features
 
 - Random text every test
 - Live WPM and accuracy stats
 - Choose your time: 30s, 60s, or 120s
-- Works great on desktop and mobile
 - Easy restart and "Try Again" buttons
 
 ## How to use
