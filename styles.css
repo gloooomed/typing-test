@@ -1,0 +1,267 @@
+*styles.css*
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    background: linear-gradient(120deg, #232526 0%, #485563 100%);
+    color: #e0e0e0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    max-width: 900px;
+    width: 100%;
+    padding: 2rem;
+    background: rgba(40, 44, 52, 0.97);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: #6dd5ed;
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px #232526;
+}
+
+.settings {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.time-options {
+    display: flex;
+    gap: 0.5rem;
+    background: #31363b;
+    border-radius: 8px;
+    padding: 0.25rem;
+}
+
+.time-btn {
+    background: none;
+    border: none;
+    color: #6dd5ed;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: background 0.2s, color 0.2s;
+}
+
+.time-btn:hover {
+    background: #6dd5ed;
+    color: #232526;
+}
+
+.time-btn.active {
+    background: #6dd5ed;
+    color: #232526;
+    font-weight: bold;
+}
+
+.stats-container {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 2rem;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 0.25rem;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 300;
+    color: #6dd5ed;
+}
+
+.typing-area {
+    background: #31363b;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.text-display {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    min-height: 4rem;
+    color: #b0b0b0;
+    letter-spacing: 0.5px;
+}
+
+.text-display .char {
+    position: relative;
+    border-radius: 3px;
+    padding: 0 2px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.text-display .char.correct {
+    color: #e0e0e0;
+    background: #388e3c;
+}
+
+.text-display .char.incorrect {
+    color: #fff;
+    background: #e57373;
+}
+
+.text-display .char.current {
+    background: #6dd5ed;
+    color: #232526;
+}
+
+.user-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1.25rem;
+    color: transparent;
+    caret-color: #6dd5ed;
+    font-family: inherit;
+    line-height: 1.8;
+    letter-spacing: 0.5px;
+}
+
+.user-input::placeholder {
+    color: #888;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.restart-btn {
+    background: #232526;
+    border: none;
+    color: #6dd5ed;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.2s, color 0.2s;
+}
+
+.restart-btn:hover {
+    background: #6dd5ed;
+    color: #232526;
+}
+
+.results {
+    background: #31363b;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+}
+
+.results.hidden {
+    display: none;
+}
+
+.results h2 {
+    color: #6dd5ed;
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+}
+
+.final-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 2rem;
+}
+
+.final-stat {
+    text-align: center;
+}
+
+.final-stat-label {
+    display: block;
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 0.5rem;
+}
+
+.final-stat-value {
+    font-size: 2rem;
+    font-weight: 300;
+    color: #6dd5ed;
+}
+
+.try-again-btn {
+    background: #6dd5ed;
+    border: none;
+    color: #232526;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+}
+
+.try-again-btn:hover {
+    background: #388e3c;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    h1 {
+        font-size: 2rem;
+    }
+    .stats-container {
+        gap: 2rem;
+    }
+    .final-stats {
+        gap: 2rem;
+    }
+    .stat-value,
+    .final-stat-value {
+        font-size: 1.5rem;
+    }
+    .text-display {
+        font-size: 1.1rem;
+    }
+    .user-input {
+        font-size: 1.1rem;
+    }
+}
