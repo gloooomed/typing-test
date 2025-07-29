@@ -14,10 +14,17 @@ This web app gives you a random passage to type. As you type, it shows your word
 
 ## Features
 
+- **Multiple Difficulty Levels**: Choose from Beginner, Intermediate, Advanced, or Code typing challenges
+- **Extensive Text Library**: Over 75 different texts across all difficulty levels
 - Random text every test
 - Live WPM and accuracy stats
 - Choose your time: 30s, 60s, or 120s
 - Easy restart and "Try Again" buttons
+- **Specialized Content**: 
+  - Beginner: Simple sentences and common words
+  - Intermediate: Complex paragraphs with varied vocabulary
+  - Advanced: Academic and philosophical texts with challenging vocabulary
+  - Code: Programming syntax, commands, and code snippets
 
 ## How to use
 
@@ -29,7 +36,10 @@ This web app gives you a random passage to type. As you type, it shows your word
 
 ## Ideas for the future
 
-- More text samples
+- Progress tracking and statistics over time
 - Custom time settings
+- Sound effects and themes
+- Multiplayer racing mode
+- More specialized text categories (literature, technical, etc.)
 
 Enjoy
