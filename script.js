@@ -1,266 +1,781 @@
+/* ============================================================
+   TypeSpeed — script.js
+   MonkeyType-inspired word-pool typing test
+   ============================================================ */
+
+/* ── Word pools ── */
+const WORD_POOLS = {
+  beginner: [
+    'the','be','to','of','and','a','in','that','have','it','for','not','on',
+    'with','he','as','you','do','at','this','but','his','by','from','they',
+    'we','say','her','she','or','an','will','my','one','all','would','there',
+    'their','what','so','up','out','if','about','who','get','which','go','me',
+    'when','make','can','like','time','no','just','him','know','take','people',
+    'into','year','your','good','some','could','them','see','other','than',
+    'then','now','look','only','come','its','over','think','also','back',
+    'after','use','two','how','our','work','first','well','way','even','new',
+    'want','because','any','these','give','day','most','us','great','between',
+    'need','large','often','hand','high','place','hold','turn','where','help',
+    'such','feel','through','before','right','very','mean','old','word','done',
+    'set','put','end','does','another','big','point','play','small','number',
+    'off','always','move','live','still','own','part','every','found','never',
+    'under','head','leave','few','open','seem','together','next','white',
+    'walk','book','mile','car','feet','care','second','red','list','talk',
+    'fire','road','age','voice','power','town','fine','stand','girl','tree',
+    'song','bird','rain','cold','warm','fast','slow','kind','dark','light',
+    'rock','sand','wave','moon','star','wind','drop','leaf','name','face',
+    'home','side','long','run','pay','four','form','real','stop','ten',
+    'hold','keep','once','door','pull','draw','let','show','line','love',
+    'bad','map','eat','blue','six','soon','body','music','color','fish',
+    'area','mark','dog','horse','room','knew','since','ever','piece','told',
+    'early','order','black','top','ship','across','today','low','hour',
+    'happened','whole','remember','reached','listen','covered','pattern',
+    'hundred','against','north','slowly','money','farm','step','morning',
+    'passed','true','numeral','table','measure','waves','vowel','toward',
+    'five','space','hard','late','land','full','sun','back','type','turn',
+    'late','life','city','mean','boy','play','eat','hat','dog','cut',
+    'happy','ready','above','ever','though','hill','buy','hold','said',
+    'half','sat','try','night','ran','seen','help','next','once','days',
+    'plan','cry','fly','jump','kick','lock','pick','push','read','ride',
+    'ring','send','sing','sit','skip','stay','swim','tell','toss','trip',
+    'wait','wake','wash','wear','win','work','yell','zip','blog','chat',
+    'clip','deal','edit','fan','grab','grid','hire','host','icon','idea',
+    'join','key','link','load','log','menu','move','page','post','pull',
+    'save','sign','sort','tag','test','tip','tool','view','vote','wrap'
+  ],
+  intermediate: [
+    'because','however','therefore','although','whether','consider','provide',
+    'require','according','between','important','different','following',
+    'describe','necessary','example','possible','question','together',
+    'everything','sometimes','understand','experience','government',
+    'information','education','development','environmental','international',
+    'relationship','community','population','technology','opportunity',
+    'individual','significant','particularly','including','management',
+    'organization','performance','professional','responsibility','traditional',
+    'alternative','circumstances','communication','established','immediately',
+    'involvement','perspective','possibility','recognition','representative',
+    'specifically','understanding','approximately','characteristic',
+    'comprehensive','consideration','consequences','contribution',
+    'demonstration','determination','effectiveness','fundamental',
+    'identification','implementation','investigation','recommendation',
+    'significance','achievement','administration','announcement','assessment',
+    'assumption','atmosphere','background','capability','celebration',
+    'challenge','collection','commitment','competition','conclusion',
+    'conference','confidence','connection','construction','consumption',
+    'conversation','cooperation','corporation','correspondence','creativity',
+    'currency','decision','declaration','definition','democracy','description',
+    'destination','direction','discovery','discussion','distribution',
+    'diversity','documentation','economy','efficiency','election','emotion',
+    'employment','enforcement','environment','equation','evaluation',
+    'evolution','examination','execution','exhibition','expectation',
+    'explanation','expression','extension','facilitation','formation',
+    'foundation','generation','graduation','illustration','imagination',
+    'implementation','improvement','indication','influence','innovation',
+    'installation','institution','integration','interpretation','introduction',
+    'investigation','investment','justification','knowledge','leadership',
+    'legislation','liberation','limitation','maintenance','measurement',
+    'mechanism','medication','membership','migration','modification',
+    'motivation','movement','navigation','negotiation','notification',
+    'observation','operation','opposition','organization','orientation',
+    'participation','partnership','perception','population','presentation',
+    'preservation','prevention','production','progress','promotion',
+    'protection','publication','qualification','realization','recognition',
+    'recommendation','reduction','reflection','regulation','relationship',
+    'representation','requirement','resolution','responsibility','revolution',
+    'satisfaction','selection','separation','simulation','situation',
+    'specification','stabilization','strategy','structure','submission',
+    'suggestion','supervision','translation','understanding','utilization',
+    'validation','variation','verification','visualization','workspace'
+  ],
+  advanced: [
+    'epistemological','paradigmatic','metamorphosis','quintessential',
+    'philosophical','philanthropist','circumnavigation','incomprehensible',
+    'juxtaposition','manifestation','unprecedented','extraordinary',
+    'sophisticated','discombobulate','serendipitous','melancholy',
+    'ephemeral','clandestine','ubiquitous','superfluous','ostentatious',
+    'sycophantic','obfuscation','perspicacious','equivocating','nefarious',
+    'perfidious','magnanimous','loquacious','fastidious','meticulous',
+    'idiosyncratic','exacerbate','ameliorate','surreptitious','obsequious',
+    'pernicious','recalcitrant','obstreperous','ignominious','pusillanimous',
+    'consternation','vicissitudes','ineffable','inexorable','immutable',
+    'inscrutable','intransigent','indefatigable','mendacious','perspicuous',
+    'precipitous','predilection','proclivity','propitious','recondite',
+    'sagacious','sanctimonious','tendentious','truculent','verisimilitude',
+    'voluminous','labyrinthine','machiavellian','misanthropic','narcissistic',
+    'nihilistic','pragmatic','solipsistic','anthropomorphic','bureaucratic',
+    'circumlocution','colloquialism','condescension','conscientious',
+    'contradictory','controversial','counterintuitive','disproportionate',
+    'dysfunctional','ecclesiastical','egalitarian','entrepreneurial',
+    'extemporaneous','gastronomical','gubernatorial','hypothetical',
+    'idiosyncratic','imperceptible','impersonation','inconsequential',
+    'indistinguishable','ineffectual','inexplicable','infrastructure',
+    'institutional','interdisciplinary','interrogative','introspective',
+    'irresponsible','juxtaposition','kaleidoscopic','knowledgeable',
+    'legislative','metaphorical','multidisciplinary','neurological',
+    'nomenclature','nonconformist','omnipresence','orchestration',
+    'overwhelming','paradoxical','paternalistic','perpendicular',
+    'philosophical','photosynthesis','physiological','proclamation',
+    'psychological','reconnaissance','rehabilitation','revolutionary',
+    'righteousness','simultaneously','straightforward','subconscious',
+    'transcendental','transformative','unconventional','unprecedented',
+    'vulnerabilities','whimsicality','xenophobia','yearning','zealotry'
+  ],
+  code: [
+    'function','return','const','let','var','if','else','for','while','class',
+    'import','export','default','async','await','try','catch','throw','new',
+    'this','typeof','instanceof','null','undefined','true','false','switch',
+    'case','break','continue','delete','void','yield','static','extends',
+    'super','interface','type','enum','namespace','module','require','arrow',
+    'promise','callback','closure','prototype','object','array','string',
+    'number','boolean','symbol','bigint','map','set','weakmap','weakset',
+    'proxy','reflect','generator','iterator','spread','destructure','template',
+    'computed','getter','setter','decorator','mixin','singleton','observer',
+    'factory','strategy','adapter','facade','command','composite','iterator',
+    'algorithm','binary','linear','recursive','dynamic','greedy','backtrack',
+    'sort','filter','reduce','map','find','every','some','includes','indexOf',
+    'slice','splice','concat','join','split','trim','replace','match','search',
+    'parse','stringify','fetch','promise','resolve','reject','then','catch',
+    'finally','async','await','timeout','interval','event','listener','emit',
+    'dispatch','subscribe','publish','queue','stack','heap','tree','graph',
+    'node','edge','vertex','path','cycle','depth','breadth','traverse','search',
+    'insert','delete','update','query','index','schema','model','controller',
+    'router','middleware','request','response','status','header','body','param',
+    'query','session','token','hash','encrypt','decrypt','authenticate',
+    'authorize','validate','sanitize','cache','buffer','stream','pipe',
+    'chunk','byte','bit','flag','mask','shift','rotate','xor','and','or',
+    'webpack','babel','eslint','prettier','jest','mocha','chai','sinon',
+    'docker','kubernetes','nginx','express','react','vue','angular','svelte',
+    'typescript','graphql','postgresql','mongodb','redis','elasticsearch'
+  ]
+};
+
+/* ── Punctuation characters and number generator ── */
+const PUNCT_CHARS = [',', '.', '!', '?', ';', ':'];
+const randNum = () => String(Math.floor(Math.random() * 1000));
+
+/* ── Main class ── */
 class TypingTest {
-    constructor() {
-        this.testTexts = {
-            beginner: [
-                "The cat sat on the mat. It was a sunny day and the birds were singing in the trees.",
-                "I like to eat pizza with cheese. My favorite drink is water and I enjoy reading books.",
-                "The dog runs in the park every morning. Children play games and have fun together.",
-                "We go to school to learn new things. Teachers help us grow and become smarter each day.",
-                "The sun shines bright in the blue sky. Flowers bloom and bees collect sweet honey.",
-                "Fish swim in the clear water. The ocean is deep and full of amazing sea creatures.",
-                "My friend lives next door to me. We play games and share our toys with each other.",
-                "The train moves fast on the tracks. People travel to work and visit family members.",
-                "Birds can fly high in the air. They build nests and take care of their baby birds.",
-                "The moon comes out at night. Stars twinkle and light up the dark peaceful sky.",
-                "I brush my teeth every morning. Good habits help us stay healthy and feel great.",
-                "The farmer grows corn in the field. Vegetables and fruits give us energy and vitamins.",
-                "Snow falls gently in the winter. Children build snowmen and go sledding down hills.",
-                "The library has many good books. Reading helps us learn about the world around us.",
-                "My family loves to cook dinner. We eat together and talk about our busy day."
-            ],
-            intermediate: [
-                "The quick brown fox jumps over the lazy dog. This pangram contains every letter of the alphabet at least once, making it useful for testing typewriters and fonts.",
-                "Technology has revolutionized the way we communicate with each other. Social media platforms connect people across vast distances, breaking down geographical barriers.",
-                "Climate change represents one of the most significant challenges facing humanity today. Rising temperatures and extreme weather patterns affect ecosystems worldwide.",
-                "The human brain contains approximately eighty-six billion neurons, each forming thousands of connections with other cells throughout the complex neural network.",
-                "Artificial intelligence continues to advance rapidly, with machine learning algorithms becoming increasingly sophisticated in their ability to process and analyze data.",
-                "Space exploration has captured human imagination for centuries. Recent missions to Mars have provided valuable insights into the possibility of life beyond Earth.",
-                "The Renaissance period marked a time of great cultural and artistic achievement. Artists like Leonardo da Vinci created masterpieces that still inspire people today.",
-                "Biodiversity in rainforests plays a crucial role in maintaining global ecological balance. These ecosystems support countless species and regulate climate patterns.",
-                "Quantum physics challenges our understanding of reality at the smallest scales. Particles can exist in multiple states simultaneously until observed or measured.",
-                "The history of civilizations reveals patterns of rise and decline influenced by factors such as technology, environment, economics, and social structures.",
-                "Renewable energy sources offer promising solutions to reduce dependence on fossil fuels. Solar and wind power technologies continue to improve in efficiency.",
-                "Literature serves as a mirror reflecting society's values, concerns, and aspirations throughout different historical periods and cultural contexts.",
-                "The development of written language transformed human civilization by enabling the preservation and transmission of knowledge across generations.",
-                "Philosophy examines fundamental questions about existence, knowledge, morality, and the nature of reality through rational inquiry and logical reasoning.",
-                "Globalization has created unprecedented interconnectedness between nations, affecting economics, culture, politics, and environmental issues on a worldwide scale."
-            ],
-            advanced: [
-                "The epistemological implications of postmodern philosophy challenge traditional notions of objective truth, suggesting that knowledge is inherently subjective and contextually dependent upon cultural paradigms.",
-                "Quantum entanglement demonstrates that particles can exhibit instantaneous correlations regardless of spatial separation, a phenomenon Einstein famously criticized as 'spooky action at a distance.'",
-                "The socioeconomic ramifications of technological unemployment necessitate comprehensive policy frameworks addressing universal basic income, retraining programs, and wealth redistribution mechanisms.",
-                "Neuroplasticity research reveals the brain's remarkable capacity for structural and functional reorganization throughout life, contradicting previous assumptions about fixed neural architecture in adulthood.",
-                "The anthropocene epoch signifies humanity's unprecedented geological impact, characterized by accelerated biodiversity loss, atmospheric composition changes, and irreversible ecosystem modifications.",
-                "Cryptocurrency's decentralized architecture challenges traditional monetary systems by eliminating intermediary institutions and enabling peer-to-peer transactions through cryptographic protocols and blockchain technology.",
-                "Phenomenological investigations into consciousness explore the subjective experience of being, examining how perception, intentionality, and temporality constitute the fundamental structures of human existence.",
-                "The mathematical elegance of chaos theory demonstrates how deterministic systems can exhibit unpredictable behavior, revealing complex patterns emerging from simple nonlinear dynamic equations.",
-                "Bioethical considerations surrounding genetic engineering encompass questions of human enhancement, therapeutic intervention, consent, equity, and the fundamental nature of human identity.",
-                "Postcolonial literary criticism examines how imperial discourse shaped cultural representations, analyzing the intersection of power, language, identity, and resistance in formerly colonized societies.",
-                "The thermodynamic principle of entropy suggests that isolated systems tend toward maximum disorder, raising profound questions about the arrow of time and the universe's ultimate fate.",
-                "Metacognitive awareness involves thinking about thinking itself, encompassing knowledge of one's cognitive processes, strategies for learning, and the ability to monitor mental performance.",
-                "The philosophical problem of free will versus determinism questions whether human actions result from conscious choice or are predetermined by antecedent causes and natural laws.",
-                "Linguistic relativity hypothesis proposes that language structure influences thought patterns and worldview, suggesting that speakers of different languages conceptualize reality in fundamentally distinct ways.",
-                "The hermeneutic circle describes the iterative process of understanding whereby interpretation of parts depends upon comprehension of the whole, while understanding the whole requires interpreting its constituent elements."
-            ],
-            code: [
-                "function calculateSum(array) { return array.reduce((sum, num) => sum + num, 0); }",
-                "const userData = { name: 'John', age: 30, email: 'john@example.com' }; console.log(userData.name);",
-                "if (condition === true) { executeFunction(); } else { handleError('Invalid condition'); }",
-                "for (let i = 0; i < items.length; i++) { processItem(items[i]); }",
-                "class Rectangle { constructor(width, height) { this.width = width; this.height = height; } }",
-                "const apiResponse = await fetch('/api/users').then(response => response.json());",
-                "try { const data = JSON.parse(jsonString); } catch (error) { console.error('Parse error:', error); }",
-                "const filteredArray = numbers.filter(num => num > 10).map(num => num * 2);",
-                "import React, { useState, useEffect } from 'react'; export default function Component() {}",
-                "SELECT users.name, orders.total FROM users INNER JOIN orders ON users.id = orders.user_id;",
-                "def fibonacci(n): return n if n <= 1 else fibonacci(n-1) + fibonacci(n-2)",
-                "public class Main { public static void main(String[] args) { System.out.println('Hello World'); } }",
-                "const express = require('express'); const app = express(); app.listen(3000);",
-                "git add . && git commit -m 'Fix: resolve merge conflicts' && git push origin main",
-                "docker run -d -p 8080:80 --name webserver nginx:latest",
-                "npm install --save-dev webpack babel-loader @babel/core @babel/preset-env",
-                "<?php $connection = new PDO('mysql:host=localhost;dbname=test', $user, $pass); ?>",
-                "terraform init && terraform plan && terraform apply --auto-approve",
-                "kubectl create deployment app --image=nginx && kubectl expose deployment app --port=80",
-                "ALTER TABLE users ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;"
-            ]
-        };
-        this.currentDifficulty = 'beginner';
-        this.currentText = '';
-        this.startTime = null;
-        this.timeLimit = 30;
-        this.isTestActive = false;
-        this.timer = null;
-        this.timeLeft = 30;
-        this.correctChars = 0;
-        this.totalChars = 0;
-        this.errors = 0;
-        this.textDisplay = document.getElementById('textDisplay');
-        this.userInput = document.getElementById('userInput');
-        this.wpmDisplay = document.getElementById('wpm');
-        this.accuracyDisplay = document.getElementById('accuracy');
-        this.timerDisplay = document.getElementById('timer');
-        this.timerBar = document.getElementById('timerBar');
-        this.typingArea = document.getElementById('typingArea');
-        this.restartBtn = document.getElementById('restartBtn');
-        this.results = document.getElementById('results');
-        this.tryAgainBtn = document.getElementById('tryAgainBtn');
-        this.finalWpm = document.getElementById('finalWpm');
-        this.finalAccuracy = document.getElementById('finalAccuracy');
-        this.finalChars = document.getElementById('finalChars');
-        this.performanceRating = document.getElementById('performanceRating');
-        this.timeButtons = document.querySelectorAll('.time-btn');
-        this.difficultyButtons = document.querySelectorAll('.difficulty-btn');
-        this.userInput.addEventListener('input', e => this.handleInput(e));
-        this.userInput.addEventListener('focus', () => this.typingArea.classList.add('active'));
-        this.userInput.addEventListener('blur', () => this.typingArea.classList.remove('active'));
-        document.addEventListener('keydown', e => this.handleKeyDown(e));
-        this.restartBtn.addEventListener('click', () => this.resetTest());
-        if (this.tryAgainBtn) this.tryAgainBtn.addEventListener('click', () => this.resetTest());
-        this.timeButtons.forEach(btn => {
-            btn.addEventListener('click', e => this.setTimeLimit(e));
-        });
-        this.difficultyButtons.forEach(btn => {
-            btn.addEventListener('click', e => this.setDifficulty(e));
-        });
-        this.textDisplay.addEventListener('click', () => this.userInput.focus());
+  constructor() {
+    /* -- Mode state -- */
+    this.mode       = 'time';    // 'time' | 'words'
+    this.timeLimit  = 30;
+    this.wordCount  = 25;
+    this.difficulty = 'beginner';
+    this.punctuation = false;
+    this.numbers     = false;
+    this.theme       = 'dark';
+
+    /* -- Test state -- */
+    this.words         = [];   // target word strings
+    this.typedHistory  = [];   // what was typed per completed word
+    this.wordEls       = [];   // word DOM elements
+
+    this.currentWordIdx  = 0;
+    this.currentInput    = '';
+    this.isActive        = false;
+    this.startTime       = null;
+    this.timeLeft        = 30;
+    this.timer           = null;
+    this.caretBlinkTimer = null;
+
+    this.correctWords    = 0;
+    this.incorrectWords  = 0;
+    this.extraChars      = 0;
+    this.missedChars     = 0;
+    this.correctChars    = 0;
+    this.incorrectChars  = 0;
+
+    this.wpmHistory      = [];   // [{second, wpm}]
+    this.lineOffset      = 0;    // current px translateY applied to container
+
+    /* -- DOM refs -- */
+    this.wordsWrapper    = document.getElementById('wordsWrapper');
+    this.wordsContainer  = document.getElementById('wordsContainer');
+    this.wordInput       = document.getElementById('wordInput');
+    this.caretEl         = document.getElementById('caret');
+    this.liveStats       = document.getElementById('liveStats');
+    this.liveWpm         = document.getElementById('liveWpm');
+    this.liveAcc         = document.getElementById('liveAcc');
+    this.liveCounter     = document.getElementById('liveCounter');
+    this.liveCounterLbl  = document.getElementById('liveCounterLabel');
+    this.restartBtn      = document.getElementById('restartBtn');
+    this.resultsEl       = document.getElementById('results');
+    this.finalWpmEl      = document.getElementById('finalWpm');
+    this.finalAccEl      = document.getElementById('finalAcc');
+    this.finalRawEl      = document.getElementById('finalRaw');
+    this.finalCharsEl    = document.getElementById('finalChars');
+    this.finalTimeEl     = document.getElementById('finalTime');
+    this.finalModeEl     = document.getElementById('finalMode');
+    this.wpmChartEl      = document.getElementById('wpmChart');
+    this.pbBanner        = document.getElementById('pbBanner');
+    this.tryAgainBtn     = document.getElementById('tryAgainBtn');
+    this.capsWarning     = document.getElementById('capsWarning');
+
+    this._bindEvents();
+    this._loadTheme();
+    this.resetTest();
+  }
+
+  /* ────────────────── Event binding ────────────────── */
+  _bindEvents() {
+    /* Input */
+    this.wordInput.addEventListener('keydown', e => this._onKeyDown(e));
+    this.wordInput.addEventListener('input',   e => this._onInput(e));
+
+    /* Click on text area focuses hidden input */
+    this.wordsWrapper.addEventListener('click', () => this.wordInput.focus());
+
+    /* Global keys */
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Tab') { e.preventDefault(); this.resetTest(); return; }
+      if (!this.isActive && e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
+        this.wordInput.focus();
+      }
+      /* Caps lock warning */
+      if (e.getModifierState && e.getModifierState('CapsLock')) {
+        this.capsWarning.classList.remove('hidden');
+      } else {
+        this.capsWarning.classList.add('hidden');
+      }
+    });
+
+    document.addEventListener('keyup', e => {
+      if (e.getModifierState && !e.getModifierState('CapsLock')) {
+        this.capsWarning.classList.add('hidden');
+      }
+    });
+
+    /* Restart */
+    this.restartBtn.addEventListener('click', () => this.resetTest());
+    this.tryAgainBtn.addEventListener('click', () => this.resetTest());
+
+    /* Theme toggle */
+    const themeBtn  = document.getElementById('themeBtn');
+    const themeMenu = document.getElementById('themeMenu');
+    themeBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      themeMenu.classList.toggle('hidden');
+    });
+    document.addEventListener('click', () => themeMenu.classList.add('hidden'));
+    document.querySelectorAll('.theme-option').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        this._setTheme(btn.dataset.theme);
+        themeMenu.classList.add('hidden');
+      });
+    });
+
+    /* Mode type: time / words */
+    document.querySelectorAll('.mode-type-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.mode-type-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        this.mode = btn.dataset.mode;
+        document.getElementById('timeOptions').classList.toggle('hidden', this.mode !== 'time');
+        document.getElementById('wordCountOptions').classList.toggle('hidden', this.mode !== 'words');
         this.resetTest();
-    }
-    handleKeyDown(e) {
-        if (e.key === 'Tab') {
-            e.preventDefault();
-            this.resetTest();
-            return;
-        }
-        if (!this.isTestActive && e.key.length === 1) {
-            this.userInput.focus();
-        }
-    }
-    setTimeLimit(e) {
-        this.timeButtons.forEach(btn => btn.classList.remove('active'));
-        e.target.classList.add('active');
-        this.timeLimit = parseInt(e.target.dataset.time);
-        this.timeLeft = this.timeLimit;
-        this.timerDisplay.textContent = this.timeLimit;
+      });
+    });
+
+    /* Time value buttons */
+    document.querySelectorAll('#timeOptions .value-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#timeOptions .value-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        this.timeLimit = parseInt(btn.dataset.value);
         this.resetTest();
-    }
-    setDifficulty(e) {
-        this.difficultyButtons.forEach(btn => btn.classList.remove('active'));
-        e.target.classList.add('active');
-        this.currentDifficulty = e.target.dataset.difficulty;
+      });
+    });
+
+    /* Word count buttons */
+    document.querySelectorAll('#wordCountOptions .value-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#wordCountOptions .value-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        this.wordCount = parseInt(btn.dataset.value);
         this.resetTest();
+      });
+    });
+
+    /* Difficulty */
+    document.querySelectorAll('.diff-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        this.difficulty = btn.dataset.difficulty;
+        this.resetTest();
+      });
+    });
+
+    /* Toggles: punctuation, numbers */
+    document.getElementById('punctuationBtn').addEventListener('click', e => {
+      this.punctuation = !this.punctuation;
+      e.currentTarget.classList.toggle('active', this.punctuation);
+      this.resetTest();
+    });
+    document.getElementById('numbersBtn').addEventListener('click', e => {
+      this.numbers = !this.numbers;
+      e.currentTarget.classList.toggle('active', this.numbers);
+      this.resetTest();
+    });
+  }
+
+  /* ────────────────── Theme ────────────────── */
+  _setTheme(theme) {
+    this.theme = theme;
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem('typespeed-theme', theme);
+    document.querySelectorAll('.theme-option').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.theme === theme);
+    });
+  }
+
+  _loadTheme() {
+    const saved = localStorage.getItem('typespeed-theme') || 'dark';
+    this._setTheme(saved);
+  }
+
+  /* ────────────────── Word generation ────────────────── */
+  _generateWords() {
+    const count = this.mode === 'words' ? this.wordCount : 200;
+    const pool  = WORD_POOLS[this.difficulty] || WORD_POOLS.beginner;
+    const result = [];
+
+    for (let i = 0; i < count; i++) {
+      let word = pool[Math.floor(Math.random() * pool.length)];
+
+      if (this.numbers && Math.random() < 0.2) {
+        word = randNum();
+      }
+
+      if (this.punctuation && Math.random() < 0.15) {
+        word += PUNCT_CHARS[Math.floor(Math.random() * PUNCT_CHARS.length)];
+      }
+
+      result.push(word);
     }
-    generateText() {
-        const textsForDifficulty = this.testTexts[this.currentDifficulty];
-        const randomIndex = Math.floor(Math.random() * textsForDifficulty.length);
-        return textsForDifficulty[randomIndex];
+    return result;
+  }
+
+  /* ────────────────── DOM building ────────────────── */
+  _buildWordEls() {
+    this.wordsContainer.innerHTML = '';
+    this.wordEls = [];
+
+    this.words.forEach((word, wi) => {
+      const wordEl = document.createElement('div');
+      wordEl.className = 'word';
+      wordEl.dataset.wi = wi;
+
+      Array.from(word).forEach(ch => {
+        const span = document.createElement('span');
+        span.className = 'letter';
+        span.textContent = ch;
+        wordEl.appendChild(span);
+      });
+
+      this.wordsContainer.appendChild(wordEl);
+      this.wordEls.push(wordEl);
+    });
+  }
+
+  /* ────────────────── Caret ────────────────── */
+  _moveCaret() {
+    const wordEl = this.wordEls[this.currentWordIdx];
+    if (!wordEl) return;
+
+    const letters    = wordEl.querySelectorAll('.letter');
+    const typedLen   = this.currentInput.length;
+    const wrapRect   = this.wordsWrapper.getBoundingClientRect();
+
+    let refEl, placeAfter;
+    if (typedLen < letters.length) {
+      refEl      = letters[typedLen];
+      placeAfter = false;
+    } else {
+      refEl      = letters[letters.length - 1];
+      placeAfter = true;
     }
-    displayText() {
-        this.currentText = this.generateText();
-        this.textDisplay.innerHTML = this.currentText
-            .split('')
-            .map(char => `<span class="char">${char}</span>`)
-            .join('');
+    if (!refEl) return;
+
+    const rect   = refEl.getBoundingClientRect();
+    const left   = placeAfter ? rect.right - wrapRect.left : rect.left - wrapRect.left;
+    const top    = rect.top   - wrapRect.top;
+    const height = rect.height;
+
+    this.caretEl.style.left   = left   + 'px';
+    this.caretEl.style.top    = top    + 'px';
+    this.caretEl.style.height = height + 'px';
+
+    this._scrollIfNeeded();
+  }
+
+  _flashCaret() {
+    /* Pause blink while user is actively typing */
+    this.caretEl.classList.add('typing');
+    clearTimeout(this.caretBlinkTimer);
+    this.caretBlinkTimer = setTimeout(() => {
+      this.caretEl.classList.remove('typing');
+    }, 500);
+  }
+
+  /* ────────────────── Scrolling ────────────────── */
+  _scrollIfNeeded() {
+    const wordEl = this.wordEls[this.currentWordIdx];
+    if (!wordEl || !this.wordEls[0]) return;
+
+    const lineH  = this.wordEls[0].offsetHeight;
+    if (lineH === 0) return;
+
+    const firstTop   = this.wordEls[0].offsetTop;
+    const currentTop = wordEl.offsetTop;
+    const absLine    = Math.round((currentTop - firstTop) / lineH);
+
+    /* Keep cursor on line 1 (0-indexed) by scrolling when it hits line 2 */
+    const targetOffset = Math.max(0, absLine - 1) * lineH;
+    if (targetOffset !== this.lineOffset) {
+      this.lineOffset = targetOffset;
+      this.wordsContainer.style.transform = `translateY(-${targetOffset}px)`;
     }
-    updateTimerBar() {
-        const pct = (this.timeLeft / this.timeLimit) * 100;
-        this.timerBar.style.width = pct + '%';
-        if (pct <= 25) {
-            this.timerBar.classList.add('danger');
-        } else {
-            this.timerBar.classList.remove('danger');
-        }
+  }
+
+  /* ────────────────── Input handling ────────────────── */
+  _onKeyDown(e) {
+    if (!this.isActive && e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
+      this._startTest();
     }
-    startTest() {
-        if (!this.isTestActive) {
-            this.isTestActive = true;
-            this.startTime = Date.now();
-            this.startTimer();
-        }
+
+    /* Backspace on empty input → go back to previous word */
+    if (e.key === 'Backspace' && this.wordInput.value === '' && this.currentWordIdx > 0) {
+      e.preventDefault();
+      this._goBack();
     }
-    startTimer() {
-        clearInterval(this.timer);
-        this.timer = setInterval(() => {
-            this.timeLeft--;
-            this.timerDisplay.textContent = this.timeLeft;
-            this.updateTimerBar();
-            if (this.timeLeft <= 0) {
-                this.endTest();
-            }
-        }, 1000);
+  }
+
+  _onInput() {
+    if (!this.isActive) this._startTest();
+
+    const value = this.wordInput.value;
+
+    /* Space → complete word */
+    if (value.endsWith(' ')) {
+      const typed = value.trim();
+      if (typed.length > 0) this._completeWord(typed);
+      this.wordInput.value = '';
+      this.currentInput    = '';
+      this._moveCaret();
+      this._updateLiveStats();
+      return;
     }
-    handleInput(e) {
-        if (!this.isTestActive) this.startTest();
-        const inputValue = e.target.value;
-        const chars = this.textDisplay.querySelectorAll('.char');
-        chars.forEach(char => {
-            char.classList.remove('correct', 'incorrect', 'current');
-        });
-        for (let i = 0; i < inputValue.length; i++) {
-            if (i < chars.length) {
-                if (inputValue[i] === this.currentText[i]) {
-                    chars[i].classList.add('correct');
-                } else {
-                    chars[i].classList.add('incorrect');
-                }
-            }
-        }
-        if (inputValue.length < chars.length) {
-            chars[inputValue.length].classList.add('current');
-        }
-        this.totalChars = inputValue.length;
-        this.correctChars = 0;
-        this.errors = 0;
-        for (let i = 0; i < inputValue.length; i++) {
-            if (inputValue[i] === this.currentText[i]) {
-                this.correctChars++;
-            } else {
-                this.errors++;
-            }
-        }
-        const timeElapsed = this.isTestActive ? (Date.now() - this.startTime) / 1000 / 60 : 1;
-        const wordsTyped = this.correctChars / 5;
-        const wpm = Math.round(wordsTyped / timeElapsed) || 0;
-        const accuracy = this.totalChars > 0 ? Math.round((this.correctChars / this.totalChars) * 100) : 100;
-        this.wpmDisplay.textContent = wpm;
-        this.accuracyDisplay.textContent = accuracy + '%';
-        if (inputValue.length >= this.currentText.length) {
-            this.endTest();
-        }
+
+    this.currentInput = value;
+    this._updateCurrentWordDisplay();
+    this._moveCaret();
+    this._flashCaret();
+    this._updateLiveStats();
+
+    /* Words mode: auto-end if last word fully typed */
+    if (this.mode === 'words' && this.currentWordIdx === this.words.length - 1) {
+      const target = this.words[this.currentWordIdx];
+      if (value === target) {
+        this._completeWord(value);
+        this.wordInput.value = '';
+        this.currentInput    = '';
+        this._endTest();
+      }
     }
-    getPerformanceTier(wpm) {
-        if (wpm >= 120) return { label: '🔥 God Mode', cls: 'tier-godmode' };
-        if (wpm >= 80)  return { label: '⚡ Expert',   cls: 'tier-expert' };
-        if (wpm >= 50)  return { label: '🚀 Fast',     cls: 'tier-fast' };
-        if (wpm >= 25)  return { label: '✅ Average',  cls: 'tier-average' };
-        return              { label: '🐢 Novice',   cls: 'tier-novice' };
+  }
+
+  _completeWord(typed) {
+    const target = this.words[this.currentWordIdx];
+    this.typedHistory[this.currentWordIdx] = typed;
+
+    const wordEl  = this.wordEls[this.currentWordIdx];
+    const letters = wordEl.querySelectorAll('.letter');
+    let hasError  = false;
+
+    /* Colour each letter */
+    Array.from(letters).forEach((lEl, i) => {
+      lEl.classList.remove('correct', 'incorrect', 'extra');
+      if (i < typed.length) {
+        const ok = typed[i] === target[i];
+        lEl.classList.add(ok ? 'correct' : 'incorrect');
+        if (!ok) hasError = true;
+      } else {
+        /* Missing character — leave dimmed, counts as error */
+        hasError = true;
+        this.missedChars++;
+      }
+    });
+
+    /* Extra characters beyond word length */
+    for (let i = target.length; i < typed.length; i++) {
+      const extra = document.createElement('span');
+      extra.className = 'letter extra';
+      extra.textContent = typed[i];
+      wordEl.appendChild(extra);
+      hasError = true;
+      this.extraChars++;
     }
-    endTest() {
-        this.isTestActive = false;
-        clearInterval(this.timer);
-        const timeElapsed = (Date.now() - this.startTime) / 1000 / 60;
-        const wordsTyped = this.correctChars / 5;
-        const finalWpm = Math.round(wordsTyped / timeElapsed) || 0;
-        const finalAccuracy = this.totalChars > 0 ? Math.round((this.correctChars / this.totalChars) * 100) : 100;
-        this.finalWpm.textContent = finalWpm;
-        this.finalAccuracy.textContent = finalAccuracy + '%';
-        this.finalChars.textContent = `${this.correctChars}/${this.totalChars}`;
-        const tier = this.getPerformanceTier(finalWpm);
-        this.performanceRating.textContent = tier.label;
-        this.performanceRating.className = 'performance-rating ' + tier.cls;
-        this.results.classList.remove('hidden');
-        this.userInput.disabled = true;
+
+    if (hasError) {
+      wordEl.classList.add('word-error');
+      this.incorrectWords++;
+    } else {
+      this.correctWords++;
     }
-    resetTest() {
-        this.isTestActive = false;
-        this.startTime = null;
-        this.correctChars = 0;
-        this.totalChars = 0;
-        this.errors = 0;
-        this.timeLeft = this.timeLimit;
-        clearInterval(this.timer);
-        this.userInput.value = '';
-        this.userInput.disabled = false;
-        this.wpmDisplay.textContent = '0';
-        this.accuracyDisplay.textContent = '100%';
-        this.timerDisplay.textContent = this.timeLimit;
-        this.timerBar.style.width = '100%';
-        this.timerBar.classList.remove('danger');
-        this.results.classList.add('hidden');
-        this.displayText();
-        this.userInput.focus();
+
+    /* Per-character stats */
+    for (let i = 0; i < Math.min(typed.length, target.length); i++) {
+      if (typed[i] === target[i]) this.correctChars++;
+      else this.incorrectChars++;
     }
+
+    this.currentWordIdx++;
+
+    /* Words mode done? */
+    if (this.mode === 'words' && this.currentWordIdx >= this.words.length) {
+      this._endTest();
+    }
+  }
+
+  _goBack() {
+    this.currentWordIdx--;
+    const wordEl  = this.wordEls[this.currentWordIdx];
+    const letters = wordEl.querySelectorAll('.letter');
+
+    /* Remove any extra letter spans added during completion */
+    wordEl.querySelectorAll('.letter.extra').forEach(el => el.remove());
+    wordEl.classList.remove('word-error');
+
+    /* Reset letter colours */
+    letters.forEach(l => l.classList.remove('correct', 'incorrect', 'extra'));
+
+    /* Undo stats from the word we're going back to */
+    const prevTyped  = this.typedHistory[this.currentWordIdx] || '';
+    const prevTarget = this.words[this.currentWordIdx];
+    let wasError     = false;
+    for (let i = 0; i < Math.min(prevTyped.length, prevTarget.length); i++) {
+      if (prevTyped[i] === prevTarget[i]) this.correctChars--;
+      else { this.incorrectChars--; wasError = true; }
+    }
+    if (prevTyped.length > prevTarget.length) {
+      this.extraChars -= prevTyped.length - prevTarget.length;
+      wasError = true;
+    }
+    if (prevTyped.length < prevTarget.length && prevTyped.length > 0) {
+      this.missedChars -= prevTarget.length - prevTyped.length;
+      wasError = true;
+    }
+    if (wasError) this.incorrectWords--;
+    else          this.correctWords--;
+
+    this.typedHistory[this.currentWordIdx] = '';
+    this.currentInput = '';
+    this.wordInput.value = '';
+
+    this._moveCaret();
+    this._updateLiveStats();
+  }
+
+  _updateCurrentWordDisplay() {
+    const wordEl  = this.wordEls[this.currentWordIdx];
+    if (!wordEl) return;
+    const target  = this.words[this.currentWordIdx];
+    const letters = wordEl.querySelectorAll('.letter');
+    const typed   = this.currentInput;
+
+    letters.forEach((lEl, i) => {
+      lEl.classList.remove('correct', 'incorrect');
+      if (i < typed.length) {
+        lEl.classList.add(typed[i] === target[i] ? 'correct' : 'incorrect');
+      }
+    });
+  }
+
+  /* ────────────────── Test lifecycle ────────────────── */
+  _startTest() {
+    if (this.isActive) return;
+    this.isActive  = true;
+    this.startTime = Date.now();
+    this.liveStats.classList.add('visible');
+
+    if (this.mode === 'time') {
+      this.timeLeft = this.timeLimit;
+      this.timer = setInterval(() => {
+        this.timeLeft--;
+        this.liveCounter.textContent = this.timeLeft;
+
+        /* Snapshot WPM every second */
+        const elapsed = (Date.now() - this.startTime) / 1000 / 60;
+        const wpm     = Math.round(this.correctWords / elapsed) || 0;
+        this.wpmHistory.push({ second: this.timeLimit - this.timeLeft, wpm });
+
+        if (this.timeLeft <= 0) this._endTest();
+      }, 1000);
+    }
+  }
+
+  _updateLiveStats() {
+    if (!this.isActive || !this.startTime) return;
+
+    const elapsed = (Date.now() - this.startTime) / 1000 / 60;
+    const wpm     = Math.round(this.correctWords / elapsed) || 0;
+    this.liveWpm.textContent = wpm;
+
+    const totalW  = this.correctWords + this.incorrectWords;
+    const acc     = totalW > 0 ? Math.round((this.correctWords / totalW) * 100) : 100;
+    this.liveAcc.textContent = acc + '%';
+
+    if (this.mode === 'words') {
+      this.liveCounter.textContent = this.words.length - this.currentWordIdx;
+    }
+  }
+
+  _endTest() {
+    this.isActive = false;
+    clearInterval(this.timer);
+    this.wordInput.disabled = true;
+
+    const timeElapsed = (Date.now() - this.startTime) / 1000;
+    const timeMin     = timeElapsed / 60;
+
+    const finalWpm = Math.round(this.correctWords / timeMin) || 0;
+    const rawWpm   = Math.round((this.correctWords + this.incorrectWords) / timeMin) || 0;
+    const totalW   = this.correctWords + this.incorrectWords;
+    const acc      = totalW > 0 ? Math.round((this.correctWords / totalW) * 100) : 100;
+
+    const correctC   = this.correctChars;
+    const incorrectC = this.incorrectChars + this.extraChars + this.missedChars;
+
+    this.finalWpmEl.textContent  = finalWpm;
+    this.finalAccEl.textContent  = acc + '%';
+    this.finalRawEl.textContent  = rawWpm;
+    this.finalCharsEl.textContent = `${correctC}/${correctC + incorrectC}`;
+    this.finalTimeEl.textContent  = Math.round(timeElapsed) + 's';
+    this.finalModeEl.textContent  =
+      this.mode === 'time'
+        ? `${this.difficulty} · ${this.timeLimit}s`
+        : `${this.difficulty} · ${this.wordCount} words`;
+
+    this._checkPersonalBest(finalWpm, acc);
+    this._drawChart();
+
+    /* Add final WPM snapshot for words mode chart */
+    if (this.mode === 'words') {
+      this.wpmHistory.push({ second: Math.round(timeElapsed), wpm: finalWpm });
+    }
+
+    this.resultsEl.classList.remove('hidden');
+  }
+
+  /* ────────────────── Personal best ────────────────── */
+  _checkPersonalBest(wpm, acc) {
+    const key     = `pb-${this.difficulty}-${this.mode}-${this.mode === 'time' ? this.timeLimit : this.wordCount}`;
+    const current = JSON.parse(localStorage.getItem(key) || '{"wpm":0}');
+
+    if (wpm > current.wpm) {
+      localStorage.setItem(key, JSON.stringify({ wpm, acc, date: new Date().toISOString() }));
+      this.pbBanner.classList.remove('hidden');
+    } else {
+      this.pbBanner.classList.add('hidden');
+    }
+  }
+
+  /* ────────────────── WPM Chart ────────────────── */
+  _drawChart() {
+    const svg = this.wpmChartEl;
+    const W   = svg.clientWidth  || 480;
+    const H   = svg.clientHeight || 80;
+    svg.innerHTML = '';
+
+    const data = this.wpmHistory;
+    if (data.length < 2) return;
+
+    const maxWpm  = Math.max(...data.map(d => d.wpm), 1);
+    const maxSec  = data[data.length - 1].second || 1;
+
+    const xS = s => (s / maxSec) * W;
+    const yS = v => H - (v / maxWpm) * H * 0.85 - H * 0.08;
+
+    const ns = 'http://www.w3.org/2000/svg';
+
+    /* Filled area under line */
+    const areaCoords =
+      data.map(d => `${xS(d.second).toFixed(1)},${yS(d.wpm).toFixed(1)}`).join(' ') +
+      ` ${xS(maxSec).toFixed(1)},${H} 0,${H}`;
+    const area = document.createElementNS(ns, 'polygon');
+    area.setAttribute('points', areaCoords);
+    area.setAttribute('fill', 'var(--main)');
+    area.setAttribute('opacity', '0.12');
+    svg.appendChild(area);
+
+    /* Line */
+    const lineCoords = data.map(d => `${xS(d.second).toFixed(1)},${yS(d.wpm).toFixed(1)}`).join(' ');
+    const polyline   = document.createElementNS(ns, 'polyline');
+    polyline.setAttribute('points', lineCoords);
+    polyline.setAttribute('fill',         'none');
+    polyline.setAttribute('stroke',       'var(--main)');
+    polyline.setAttribute('stroke-width', '1.8');
+    polyline.setAttribute('stroke-linecap',  'round');
+    polyline.setAttribute('stroke-linejoin', 'round');
+    svg.appendChild(polyline);
+
+    /* Dots */
+    data.forEach(d => {
+      const c = document.createElementNS(ns, 'circle');
+      c.setAttribute('cx', xS(d.second).toFixed(1));
+      c.setAttribute('cy', yS(d.wpm).toFixed(1));
+      c.setAttribute('r',  '3');
+      c.setAttribute('fill', 'var(--main)');
+      svg.appendChild(c);
+    });
+  }
+
+  /* ────────────────── Reset ────────────────── */
+  resetTest() {
+    this.isActive       = false;
+    this.startTime      = null;
+    this.currentWordIdx = 0;
+    this.currentInput   = '';
+    this.typedHistory   = [];
+    this.correctWords   = 0;
+    this.incorrectWords = 0;
+    this.correctChars   = 0;
+    this.incorrectChars = 0;
+    this.extraChars     = 0;
+    this.missedChars    = 0;
+    this.wpmHistory     = [];
+    this.lineOffset     = 0;
+
+    clearInterval(this.timer);
+    clearTimeout(this.caretBlinkTimer);
+
+    this.wordInput.value    = '';
+    this.wordInput.disabled = false;
+
+    this.liveWpm.textContent     = '0';
+    this.liveAcc.textContent     = '100%';
+    this.liveCounter.textContent = this.mode === 'time' ? this.timeLimit : this.wordCount;
+    this.liveCounterLbl.textContent = this.mode === 'time' ? 's' : ' left';
+    this.liveStats.classList.remove('visible');
+
+    this.wordsContainer.style.transform = 'translateY(0)';
+    this.resultsEl.classList.add('hidden');
+
+    this.words = this._generateWords();
+    this._buildWordEls();
+
+    /* Position caret after layout — use rAF so DOM is painted */
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        this._moveCaret();
+        this.caretEl.classList.remove('typing');
+      });
+    });
+
+    this.wordInput.focus();
+  }
 }
-document.addEventListener('DOMContentLoaded', () => {
-    new TypingTest();
-});
+
+document.addEventListener('DOMContentLoaded', () => { new TypingTest(); });
