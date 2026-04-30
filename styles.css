@@ -149,7 +149,7 @@ h1 {
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    color: #556;
+    color: #555566;
     margin-bottom: 0.3rem;
 }
 
@@ -251,7 +251,7 @@ h1 {
 }
 
 .user-input::placeholder {
-    color: #445;
+    color: #444455;
 }
 
 /* ── Controls ── */
@@ -288,7 +288,7 @@ h1 {
 
 .shortcut-hint {
     font-size: 0.78rem;
-    color: #445;
+    color: #444455;
 }
 
 kbd {
@@ -378,7 +378,7 @@ kbd {
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    color: #556;
+    color: #555566;
     margin-bottom: 0.5rem;
 }
 
@@ -413,7 +413,7 @@ kbd {
     text-align: center;
     margin-top: 2rem;
     font-size: 0.78rem;
-    color: #334;
+    color: #333344;
     letter-spacing: 0.5px;
 }
 
