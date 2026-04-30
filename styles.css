@@ -215,8 +215,11 @@ body {
 .words-wrapper {
   position: relative;
   width: 100%;
-  /* show exactly 3 rows: letter size 1.65rem × line-height 2.2 × 3 rows */
-  height: calc(1.65rem * 2.2 * 3);
+  /* show exactly 3 rows: --letter-sz × --letter-lh × --visible-rows */
+  --letter-sz:      1.65rem;
+  --letter-lh:      2.2;
+  --visible-rows:   3;
+  height: calc(var(--letter-sz) * var(--letter-lh) * var(--visible-rows));
   overflow: hidden;
   cursor: text;
   margin-bottom: 1.5rem;
@@ -485,7 +488,10 @@ kbd {
   .mode-btn { font-size: 0.8rem; padding: 0.28rem 0.5rem; }
 
   .letter { font-size: 1.3rem; }
-  .words-wrapper { height: calc(1.3rem * 2.2 * 3); }
+  .words-wrapper {
+    --letter-sz: 1.3rem;
+    height: calc(var(--letter-sz) * var(--letter-lh) * var(--visible-rows));
+  }
 
   .results-card { padding: 1.5rem 1.25rem; min-width: unset; }
   .results-top  { gap: 1.5rem; }

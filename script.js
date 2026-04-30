@@ -151,7 +151,14 @@ const WORD_POOLS = {
 
 /* ── Punctuation characters and number generator ── */
 const PUNCT_CHARS = [',', '.', '!', '?', ';', ':'];
-const randNum = () => String(Math.floor(Math.random() * 1000));
+const RANDOM_NUMBER_MAX            = 1000;   // upper bound for number-mode random integers
+const NUMBER_INSERTION_PROBABILITY = 0.20;   // 20 % of words replaced by a number
+const PUNCT_INSERTION_PROBABILITY  = 0.15;   // 15 % of words get trailing punctuation
+const CARET_BLINK_RESUME_MS        = 500;    // ms after last keystroke before caret blinks again
+const CHART_VERTICAL_SCALE         = 0.85;   // fraction of chart height used for the data range
+const CHART_VERTICAL_PADDING       = 0.08;   // bottom-padding fraction kept below the lowest point
+
+const randNum = () => String(Math.floor(Math.random() * RANDOM_NUMBER_MAX));
 
 /* ── Main class ── */
 class TypingTest {
@@ -344,11 +351,11 @@ class TypingTest {
     for (let i = 0; i < count; i++) {
       let word = pool[Math.floor(Math.random() * pool.length)];
 
-      if (this.numbers && Math.random() < 0.2) {
+      if (this.numbers && Math.random() < NUMBER_INSERTION_PROBABILITY) {
         word = randNum();
       }
 
-      if (this.punctuation && Math.random() < 0.15) {
+      if (this.punctuation && Math.random() < PUNCT_INSERTION_PROBABILITY) {
         word += PUNCT_CHARS[Math.floor(Math.random() * PUNCT_CHARS.length)];
       }
 
@@ -416,7 +423,7 @@ class TypingTest {
     clearTimeout(this.caretBlinkTimer);
     this.caretBlinkTimer = setTimeout(() => {
       this.caretEl.classList.remove('typing');
-    }, 500);
+    }, CARET_BLINK_RESUME_MS);
   }
 
   /* ────────────────── Scrolling ────────────────── */
@@ -563,7 +570,8 @@ class TypingTest {
       this.extraChars -= prevTyped.length - prevTarget.length;
       wasError = true;
     }
-    if (prevTyped.length < prevTarget.length && prevTyped.length > 0) {
+    /* Fix: undo missedChars regardless of whether prevTyped is empty */
+    if (prevTyped.length < prevTarget.length) {
       this.missedChars -= prevTarget.length - prevTyped.length;
       wasError = true;
     }
@@ -696,7 +704,7 @@ class TypingTest {
     const maxSec  = data[data.length - 1].second || 1;
 
     const xS = s => (s / maxSec) * W;
-    const yS = v => H - (v / maxWpm) * H * 0.85 - H * 0.08;
+    const yS = v => H - (v / maxWpm) * H * CHART_VERTICAL_SCALE - H * CHART_VERTICAL_PADDING;
 
     const ns = 'http://www.w3.org/2000/svg';
 
