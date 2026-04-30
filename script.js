@@ -90,16 +90,21 @@ class TypingTest {
         this.wpmDisplay = document.getElementById('wpm');
         this.accuracyDisplay = document.getElementById('accuracy');
         this.timerDisplay = document.getElementById('timer');
+        this.timerBar = document.getElementById('timerBar');
+        this.typingArea = document.getElementById('typingArea');
         this.restartBtn = document.getElementById('restartBtn');
         this.results = document.getElementById('results');
         this.tryAgainBtn = document.getElementById('tryAgainBtn');
         this.finalWpm = document.getElementById('finalWpm');
         this.finalAccuracy = document.getElementById('finalAccuracy');
         this.finalChars = document.getElementById('finalChars');
+        this.performanceRating = document.getElementById('performanceRating');
         this.timeButtons = document.querySelectorAll('.time-btn');
         this.difficultyButtons = document.querySelectorAll('.difficulty-btn');
         this.userInput.addEventListener('input', e => this.handleInput(e));
-        document.addEventListener('keydown', e => this.focusInput(e));
+        this.userInput.addEventListener('focus', () => this.typingArea.classList.add('active'));
+        this.userInput.addEventListener('blur', () => this.typingArea.classList.remove('active'));
+        document.addEventListener('keydown', e => this.handleKeyDown(e));
         this.restartBtn.addEventListener('click', () => this.resetTest());
         if (this.tryAgainBtn) this.tryAgainBtn.addEventListener('click', () => this.resetTest());
         this.timeButtons.forEach(btn => {
@@ -111,7 +116,12 @@ class TypingTest {
         this.textDisplay.addEventListener('click', () => this.userInput.focus());
         this.resetTest();
     }
-    focusInput(e) {
+    handleKeyDown(e) {
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            this.resetTest();
+            return;
+        }
         if (!this.isTestActive && e.key.length === 1) {
             this.userInput.focus();
         }
@@ -142,6 +152,15 @@ class TypingTest {
             .map(char => `<span class="char">${char}</span>`)
             .join('');
     }
+    updateTimerBar() {
+        const pct = (this.timeLeft / this.timeLimit) * 100;
+        this.timerBar.style.width = pct + '%';
+        if (pct <= 25) {
+            this.timerBar.classList.add('danger');
+        } else {
+            this.timerBar.classList.remove('danger');
+        }
+    }
     startTest() {
         if (!this.isTestActive) {
             this.isTestActive = true;
@@ -154,6 +173,7 @@ class TypingTest {
         this.timer = setInterval(() => {
             this.timeLeft--;
             this.timerDisplay.textContent = this.timeLeft;
+            this.updateTimerBar();
             if (this.timeLeft <= 0) {
                 this.endTest();
             }
@@ -198,6 +218,13 @@ class TypingTest {
             this.endTest();
         }
     }
+    getPerformanceTier(wpm) {
+        if (wpm >= 120) return { label: '🔥 God Mode', cls: 'tier-godmode' };
+        if (wpm >= 80)  return { label: '⚡ Expert',   cls: 'tier-expert' };
+        if (wpm >= 50)  return { label: '🚀 Fast',     cls: 'tier-fast' };
+        if (wpm >= 25)  return { label: '✅ Average',  cls: 'tier-average' };
+        return              { label: '🐢 Novice',   cls: 'tier-novice' };
+    }
     endTest() {
         this.isTestActive = false;
         clearInterval(this.timer);
@@ -208,6 +235,9 @@ class TypingTest {
         this.finalWpm.textContent = finalWpm;
         this.finalAccuracy.textContent = finalAccuracy + '%';
         this.finalChars.textContent = `${this.correctChars}/${this.totalChars}`;
+        const tier = this.getPerformanceTier(finalWpm);
+        this.performanceRating.textContent = tier.label;
+        this.performanceRating.className = 'performance-rating ' + tier.cls;
         this.results.classList.remove('hidden');
         this.userInput.disabled = true;
     }
@@ -224,8 +254,11 @@ class TypingTest {
         this.wpmDisplay.textContent = '0';
         this.accuracyDisplay.textContent = '100%';
         this.timerDisplay.textContent = this.timeLimit;
+        this.timerBar.style.width = '100%';
+        this.timerBar.classList.remove('danger');
         this.results.classList.add('hidden');
         this.displayText();
+        this.userInput.focus();
     }
 }
 document.addEventListener('DOMContentLoaded', () => {
