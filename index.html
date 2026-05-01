@@ -1,197 +1,403 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TypeSpeed — Typing Test</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div id="app">
+<!doctype html>
+<html lang="en" data-theme="serika">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>TypeSpeed — Typing Test</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <div id="app">
+            <!-- ── Header ── -->
+            <header class="app-header">
+                <a class="logo" href="#" tabindex="-1">
+                    <svg
+                        width="26"
+                        height="26"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <rect x="2" y="4" width="20" height="16" rx="3" />
+                        <path
+                            d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M7 16h10"
+                        />
+                    </svg>
+                    <span>typespeed</span>
+                </a>
+                <div class="header-actions">
+                    <div class="theme-picker">
+                        <button
+                            class="icon-btn"
+                            id="themeBtn"
+                            title="Change theme"
+                            tabindex="-1"
+                        >
+                            <svg
+                                width="17"
+                                height="17"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <circle cx="12" cy="12" r="3" />
+                                <path
+                                    d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
+                                />
+                            </svg>
+                        </button>
+                        <div class="theme-menu hidden" id="themeMenu">
+                            <button
+                                class="theme-option active"
+                                data-theme="serika"
+                            >
+                                serika
+                            </button>
+                            <button class="theme-option" data-theme="ocean">
+                                ocean
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
 
-    <!-- ── Header ── -->
-    <header class="app-header">
-      <a class="logo" href="#" tabindex="-1">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-             stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="4" width="20" height="16" rx="3"/>
-          <path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M7 16h10"/>
-        </svg>
-        <span>typespeed</span>
-      </a>
-      <div class="header-actions">
-        <div class="theme-picker">
-          <button class="icon-btn" id="themeBtn" title="Change theme" tabindex="-1">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="3"/>
-              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-            </svg>
-          </button>
-          <div class="theme-menu hidden" id="themeMenu">
-            <button class="theme-option active" data-theme="dark">dark</button>
-            <button class="theme-option" data-theme="light">light</button>
-            <button class="theme-option" data-theme="serika">serika</button>
-            <button class="theme-option" data-theme="ocean">ocean</button>
-          </div>
+            <!-- ── Mode bar ── -->
+            <div class="mode-bar">
+                <div class="mode-group">
+                    <button
+                        class="mode-btn toggle-btn"
+                        id="punctuationBtn"
+                        tabindex="-1"
+                    >
+                        <svg
+                            width="13"
+                            height="13"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.2"
+                        >
+                            <circle cx="12" cy="19" r="2" />
+                            <path d="M12 3v11" />
+                        </svg>
+                        punctuation
+                    </button>
+                    <button
+                        class="mode-btn toggle-btn"
+                        id="numbersBtn"
+                        tabindex="-1"
+                    >
+                        <svg
+                            width="13"
+                            height="13"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.2"
+                        >
+                            <path
+                                d="M4 9l4-4 4 4M8 5v14M16 15l4 4 4-4M20 19V5"
+                            />
+                        </svg>
+                        numbers
+                    </button>
+                </div>
+                <div class="mode-divider"></div>
+                <div class="mode-group">
+                    <button
+                        class="mode-btn mode-type-btn active"
+                        data-mode="time"
+                        tabindex="-1"
+                    >
+                        <svg
+                            width="13"
+                            height="13"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.2"
+                        >
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 6v6l4 2" />
+                        </svg>
+                        time
+                    </button>
+                    <button
+                        class="mode-btn mode-type-btn"
+                        data-mode="words"
+                        tabindex="-1"
+                    >
+                        <svg
+                            width="13"
+                            height="13"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.2"
+                        >
+                            <path d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        words
+                    </button>
+                </div>
+                <div class="mode-divider"></div>
+                <div class="mode-group" id="timeOptions">
+                    <button
+                        class="mode-btn value-btn"
+                        data-value="15"
+                        tabindex="-1"
+                    >
+                        15
+                    </button>
+                    <button
+                        class="mode-btn value-btn active"
+                        data-value="30"
+                        tabindex="-1"
+                    >
+                        30
+                    </button>
+                    <button
+                        class="mode-btn value-btn"
+                        data-value="60"
+                        tabindex="-1"
+                    >
+                        60
+                    </button>
+                    <button
+                        class="mode-btn value-btn"
+                        data-value="120"
+                        tabindex="-1"
+                    >
+                        120
+                    </button>
+                </div>
+                <div class="mode-group hidden" id="wordCountOptions">
+                    <button
+                        class="mode-btn value-btn"
+                        data-value="10"
+                        tabindex="-1"
+                    >
+                        10
+                    </button>
+                    <button
+                        class="mode-btn value-btn active"
+                        data-value="25"
+                        tabindex="-1"
+                    >
+                        25
+                    </button>
+                    <button
+                        class="mode-btn value-btn"
+                        data-value="50"
+                        tabindex="-1"
+                    >
+                        50
+                    </button>
+                    <button
+                        class="mode-btn value-btn"
+                        data-value="100"
+                        tabindex="-1"
+                    >
+                        100
+                    </button>
+                </div>
+                <div class="mode-divider"></div>
+                <div class="mode-group" id="difficultyOptions">
+                    <button
+                        class="mode-btn diff-btn active"
+                        data-difficulty="beginner"
+                        tabindex="-1"
+                    >
+                        easy
+                    </button>
+                    <button
+                        class="mode-btn diff-btn"
+                        data-difficulty="intermediate"
+                        tabindex="-1"
+                    >
+                        medium
+                    </button>
+                    <button
+                        class="mode-btn diff-btn"
+                        data-difficulty="advanced"
+                        tabindex="-1"
+                    >
+                        hard
+                    </button>
+                    <button
+                        class="mode-btn diff-btn"
+                        data-difficulty="code"
+                        tabindex="-1"
+                    >
+                        code
+                    </button>
+                </div>
+            </div>
+
+            <!-- ── Test section ── -->
+            <div class="test-section">
+                <!-- Live stats (hidden until typing starts) -->
+                <div class="live-stats" id="liveStats">
+                    <span class="live-stat" id="liveWpm">0</span>
+                    <span class="live-label">wpm</span>
+                    <span class="live-dot">·</span>
+                    <span class="live-stat" id="liveAcc">100%</span>
+                    <span class="live-label">acc</span>
+                    <span class="live-dot">·</span>
+                    <span class="live-stat" id="liveCounter">30</span>
+                    <span class="live-label" id="liveCounterLabel">s</span>
+                </div>
+
+                <!-- Word display -->
+                <div class="words-wrapper" id="wordsWrapper">
+                    <div class="words-container" id="wordsContainer"></div>
+                    <div class="caret" id="caret"></div>
+                </div>
+
+                <!-- Hidden input captures keystrokes -->
+                <input
+                    type="text"
+                    id="wordInput"
+                    class="word-input"
+                    autocomplete="off"
+                    autocorrect="off"
+                    autocapitalize="off"
+                    spellcheck="false"
+                    tabindex="1"
+                />
+
+                <div class="caps-warning hidden" id="capsWarning">
+                    ⇪ caps lock is on
+                </div>
+
+                <!-- Restart controls -->
+                <div class="test-controls">
+                    <button
+                        class="restart-btn"
+                        id="restartBtn"
+                        title="Restart"
+                        tabindex="-1"
+                    >
+                        <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path
+                                d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"
+                            />
+                            <path d="M21 3v5h-5" />
+                        </svg>
+                    </button>
+                    <span class="hint"><kbd>tab</kbd> — restart</span>
+                </div>
+            </div>
+
+            <!-- ── Results overlay ── -->
+            <div class="results-overlay hidden" id="results">
+                <div class="results-card">
+                    <div class="results-top">
+                        <div class="result-block">
+                            <div class="result-label">wpm</div>
+                            <div class="result-value" id="finalWpm">—</div>
+                        </div>
+                        <div class="result-block">
+                            <div class="result-label">acc</div>
+                            <div class="result-value" id="finalAcc">—</div>
+                        </div>
+                    </div>
+
+                    <div class="wpm-chart-wrap">
+                        <svg
+                            class="wpm-chart"
+                            id="wpmChart"
+                            preserveAspectRatio="none"
+                        ></svg>
+                    </div>
+
+                    <div class="results-detail">
+                        <div class="detail-item">
+                            <span class="detail-label">raw</span>
+                            <span class="detail-val" id="finalRaw">—</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">characters</span>
+                            <span class="detail-val" id="finalChars">—</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">time</span>
+                            <span class="detail-val" id="finalTime">—</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">mode</span>
+                            <span class="detail-val" id="finalMode">—</span>
+                        </div>
+                    </div>
+
+                    <div class="pb-banner hidden" id="pbBanner">
+                        <svg
+                            class="pb-icon"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                            focusable="false"
+                        >
+                            <circle cx="12" cy="8" r="7" />
+                            <polyline
+                                points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"
+                            />
+                        </svg>
+                        <span>new personal best!</span>
+                    </div>
+
+                    <div class="results-actions">
+                        <button class="action-btn primary" id="tryAgainBtn">
+                            <svg
+                                width="15"
+                                height="15"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2.4"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path
+                                    d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"
+                                />
+                                <path d="M21 3v5h-5" />
+                            </svg>
+                            next test
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="app-footer">
+                <span>typespeed</span>
+                <span class="footer-sep">·</span>
+                <span>keep practising</span>
+            </footer>
         </div>
-      </div>
-    </header>
-
-    <!-- ── Mode bar ── -->
-    <div class="mode-bar">
-      <div class="mode-group">
-        <button class="mode-btn toggle-btn" id="punctuationBtn" tabindex="-1">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="19" r="2"/><path d="M12 3v11"/></svg>
-          punctuation
-        </button>
-        <button class="mode-btn toggle-btn" id="numbersBtn" tabindex="-1">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 9l4-4 4 4M8 5v14M16 15l4 4 4-4M20 19V5"/></svg>
-          numbers
-        </button>
-      </div>
-      <div class="mode-divider"></div>
-      <div class="mode-group">
-        <button class="mode-btn mode-type-btn active" data-mode="time" tabindex="-1">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          time
-        </button>
-        <button class="mode-btn mode-type-btn" data-mode="words" tabindex="-1">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-          words
-        </button>
-      </div>
-      <div class="mode-divider"></div>
-      <div class="mode-group" id="timeOptions">
-        <button class="mode-btn value-btn" data-value="15" tabindex="-1">15</button>
-        <button class="mode-btn value-btn active" data-value="30" tabindex="-1">30</button>
-        <button class="mode-btn value-btn" data-value="60" tabindex="-1">60</button>
-        <button class="mode-btn value-btn" data-value="120" tabindex="-1">120</button>
-      </div>
-      <div class="mode-group hidden" id="wordCountOptions">
-        <button class="mode-btn value-btn" data-value="10" tabindex="-1">10</button>
-        <button class="mode-btn value-btn active" data-value="25" tabindex="-1">25</button>
-        <button class="mode-btn value-btn" data-value="50" tabindex="-1">50</button>
-        <button class="mode-btn value-btn" data-value="100" tabindex="-1">100</button>
-      </div>
-      <div class="mode-divider"></div>
-      <div class="mode-group" id="difficultyOptions">
-        <button class="mode-btn diff-btn active" data-difficulty="beginner" tabindex="-1">easy</button>
-        <button class="mode-btn diff-btn" data-difficulty="intermediate" tabindex="-1">medium</button>
-        <button class="mode-btn diff-btn" data-difficulty="advanced" tabindex="-1">hard</button>
-        <button class="mode-btn diff-btn" data-difficulty="code" tabindex="-1">code</button>
-      </div>
-    </div>
-
-    <!-- ── Test section ── -->
-    <div class="test-section">
-
-      <!-- Live stats (hidden until typing starts) -->
-      <div class="live-stats" id="liveStats">
-        <span class="live-stat" id="liveWpm">0</span>
-        <span class="live-label">wpm</span>
-        <span class="live-dot">·</span>
-        <span class="live-stat" id="liveAcc">100%</span>
-        <span class="live-label">acc</span>
-        <span class="live-dot">·</span>
-        <span class="live-stat" id="liveCounter">30</span>
-        <span class="live-label" id="liveCounterLabel">s</span>
-      </div>
-
-      <!-- Word display -->
-      <div class="words-wrapper" id="wordsWrapper">
-        <div class="words-container" id="wordsContainer"></div>
-        <div class="caret" id="caret"></div>
-      </div>
-
-      <!-- Hidden input captures keystrokes -->
-      <input
-        type="text"
-        id="wordInput"
-        class="word-input"
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="off"
-        spellcheck="false"
-        tabindex="1"
-      />
-
-      <div class="caps-warning hidden" id="capsWarning">⇪ caps lock is on</div>
-
-      <!-- Restart controls -->
-      <div class="test-controls">
-        <button class="restart-btn" id="restartBtn" title="Restart" tabindex="-1">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
-            <path d="M21 3v5h-5"/>
-          </svg>
-        </button>
-        <span class="hint"><kbd>tab</kbd> — restart</span>
-      </div>
-    </div>
-
-    <!-- ── Results overlay ── -->
-    <div class="results-overlay hidden" id="results">
-      <div class="results-card">
-        <div class="results-top">
-          <div class="result-block">
-            <div class="result-label">wpm</div>
-            <div class="result-value" id="finalWpm">—</div>
-          </div>
-          <div class="result-block">
-            <div class="result-label">acc</div>
-            <div class="result-value" id="finalAcc">—</div>
-          </div>
-        </div>
-
-        <div class="wpm-chart-wrap">
-          <svg class="wpm-chart" id="wpmChart" preserveAspectRatio="none"></svg>
-        </div>
-
-        <div class="results-detail">
-          <div class="detail-item">
-            <span class="detail-label">raw</span>
-            <span class="detail-val" id="finalRaw">—</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">characters</span>
-            <span class="detail-val" id="finalChars">—</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">time</span>
-            <span class="detail-val" id="finalTime">—</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">mode</span>
-            <span class="detail-val" id="finalMode">—</span>
-          </div>
-        </div>
-
-        <div class="pb-banner hidden" id="pbBanner">🏆 new personal best!</div>
-
-        <div class="results-actions">
-          <button class="action-btn primary" id="tryAgainBtn">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
-              <path d="M21 3v5h-5"/>
-            </svg>
-            next test
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <footer class="app-footer">
-      <span>typespeed</span>
-      <span class="footer-sep">·</span>
-      <span>keep practising</span>
-    </footer>
-
-  </div>
-  <script src="script.js"></script>
-</body>
+        <script src="script.js"></script>
+    </body>
 </html>

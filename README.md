@@ -4,7 +4,7 @@ Welcome to the Typing Test app! This is a simple, fast, and fun way to check you
 
 ## What is this?
 
-This web app gives you a random passage to type. As you type, it shows your words per minute (WPM) and accuracy in real time. You can choose different time limits, restart the test whenever you want, and see your results at the end.
+This web app gives you a random word set to type. As you type, it shows your words per minute (WPM) and accuracy in real time. You can choose different modes and limits, restart the test whenever you want, and see your results at the end.
 
 ## Files
 
@@ -14,17 +14,13 @@ This web app gives you a random passage to type. As you type, it shows your word
 
 ## Features
 
-- **Multiple Difficulty Levels**: Choose from Beginner, Intermediate, Advanced, or Code typing challenges
-- **Extensive Text Library**: Over 75 different texts across all difficulty levels
-- Random text every test
+- **Multiple Difficulty Levels**: Beginner, Intermediate, Advanced, or Code word pools
+- Random words every test
 - Live WPM and accuracy stats
-- Choose your time: 30s, 60s, or 120s
+- Time or word-count modes (15/30/60/120s or 10/25/50/100 words)
+- Punctuation and numbers toggles
+- Two themes: serika and ocean
 - Easy restart and "Try Again" buttons
-- **Specialized Content**: 
-  - Beginner: Simple sentences and common words
-  - Intermediate: Complex paragraphs with varied vocabulary
-  - Advanced: Academic and philosophical texts with challenging vocabulary
-  - Code: Programming syntax, commands, and code snippets
 
 ## How to use
 
