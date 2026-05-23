@@ -20,7 +20,14 @@ This web app gives you a random word set to type. As you type, it shows your wor
 - Time or word-count modes (15/30/60/120s or 10/25/50/100 words)
 - Punctuation and numbers toggles
 - Two themes: serika and ocean
+- Animated typing prompt inspired by the React Bits `TextType` effect
 - Easy restart and "Try Again" buttons
+
+## Text effect
+
+The app includes a lightweight vanilla JavaScript `TextType` effect above the test. It cycles through short practice prompts, uses a blinking cursor, supports variable typing speed, and fades away while a test is active so it does not distract from typing.
+
+This project is still a static HTML/CSS/JS app, so no React, Tailwind, or GSAP build setup is required.
 
 ## How to use
 

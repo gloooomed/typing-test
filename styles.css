@@ -208,6 +208,53 @@ body {
     width: 100%;
 }
 
+/* Animated prompt */
+.text-type {
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.18rem;
+    min-height: 1.6rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    text-align: center;
+    transition:
+        opacity 0.2s,
+        transform 0.2s;
+}
+
+.text-type-text {
+    color: inherit;
+    white-space: pre-wrap;
+}
+
+.text-type-cursor {
+    display: inline-block;
+    color: var(--main);
+    animation: textTypeBlink var(--cursor-blink-duration, 0.5s) ease-in-out infinite alternate;
+}
+
+.text-type-cursor.hidden {
+    display: none;
+}
+
+.test-section.testing .text-type {
+    opacity: 0;
+    transform: translateY(-0.25rem);
+    pointer-events: none;
+}
+
+@keyframes textTypeBlink {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
 /* Live stats */
 .live-stats {
     display: flex;
@@ -604,6 +651,11 @@ kbd {
 
     .letter {
         font-size: 1.3rem;
+    }
+    .text-type {
+        font-size: 0.82rem;
+        min-height: 1.45rem;
+        margin-bottom: 0.75rem;
     }
     .words-wrapper {
         --letter-sz: 1.3rem;

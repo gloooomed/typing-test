@@ -934,6 +934,234 @@ const CHART_VERTICAL_PADDING = 0.08; // bottom-padding fraction kept below the l
 
 const randNum = () => String(Math.floor(Math.random() * RANDOM_NUMBER_MAX));
 
+class TextType {
+  constructor(element, options = {}) {
+    this.element = element;
+    this.options = {
+      text: [],
+      typingSpeed: 50,
+      initialDelay: 0,
+      pauseDuration: 2000,
+      deletingSpeed: 30,
+      loop: true,
+      showCursor: true,
+      hideCursorWhileTyping: false,
+      cursorCharacter: "|",
+      cursorBlinkDuration: 0.5,
+      textColors: [],
+      variableSpeed: null,
+      onSentenceComplete: null,
+      startOnVisible: false,
+      reverseMode: false,
+      ...options,
+    };
+
+    this.texts = Array.isArray(this.options.text)
+      ? this.options.text
+      : [this.options.text];
+    this.texts = this.texts.filter(Boolean);
+
+    this.displayedText = "";
+    this.currentCharIndex = 0;
+    this.currentTextIndex = 0;
+    this.isDeleting = false;
+    this.isPaused = false;
+    this.isStarted = false;
+    this.timeout = null;
+    this.observer = null;
+
+    this._build();
+
+    if (!this.element || this.texts.length === 0) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (prefersReducedMotion) {
+      this.displayedText = this._getProcessedText();
+      this._render();
+      return;
+    }
+
+    if (this.options.startOnVisible) {
+      this._observeVisibility();
+    } else {
+      this.start();
+    }
+  }
+
+  _build() {
+    if (!this.element) return;
+
+    this.element.textContent = "";
+    this.element.style.setProperty(
+      "--cursor-blink-duration",
+      `${this.options.cursorBlinkDuration}s`,
+    );
+
+    this.textEl = document.createElement("span");
+    this.textEl.className = "text-type-text";
+    this.cursorEl = document.createElement("span");
+    this.cursorEl.className = "text-type-cursor";
+    this.cursorEl.textContent = this.options.cursorCharacter;
+
+    this.element.append(this.textEl);
+    if (this.options.showCursor) this.element.append(this.cursorEl);
+    this._applyTextColor();
+  }
+
+  _observeVisibility() {
+    if (!this.element || !("IntersectionObserver" in window)) {
+      this.start();
+      return;
+    }
+
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          this.start();
+          this.observer.disconnect();
+        }
+      },
+      { threshold: 0.1 },
+    );
+    this.observer.observe(this.element);
+  }
+
+  _getProcessedText() {
+    const currentText = this.texts[this.currentTextIndex] || "";
+    return this.options.reverseMode
+      ? currentText.split("").reverse().join("")
+      : currentText;
+  }
+
+  _getTypingSpeed() {
+    const variableSpeed = this.options.variableSpeed;
+    if (!variableSpeed) return this.options.typingSpeed;
+
+    const min = Number(variableSpeed.min) || this.options.typingSpeed;
+    const max = Number(variableSpeed.max) || min;
+    return Math.random() * (max - min) + min;
+  }
+
+  _applyTextColor() {
+    if (!this.textEl) return;
+
+    const colors = this.options.textColors;
+    this.textEl.style.color =
+      colors.length > 0
+        ? colors[this.currentTextIndex % colors.length]
+        : "inherit";
+  }
+
+  _setTimeout(callback, delay) {
+    clearTimeout(this.timeout);
+    if (this.isPaused) return;
+    this.timeout = setTimeout(callback, delay);
+  }
+
+  _render() {
+    if (!this.textEl) return;
+
+    this.textEl.textContent = this.displayedText;
+
+    if (!this.cursorEl || !this.options.showCursor) return;
+
+    const typingText = this._getProcessedText();
+    const shouldHideCursor =
+      this.options.hideCursorWhileTyping &&
+      (this.currentCharIndex < typingText.length || this.isDeleting);
+
+    this.cursorEl.classList.toggle("hidden", shouldHideCursor);
+  }
+
+  _completeSentence() {
+    if (typeof this.options.onSentenceComplete !== "function") return;
+    this.options.onSentenceComplete(
+      this.texts[this.currentTextIndex],
+      this.currentTextIndex,
+    );
+  }
+
+  _tick() {
+    if (this.isPaused || this.texts.length === 0) return;
+
+    const currentText = this._getProcessedText();
+
+    if (this.isDeleting) {
+      if (this.displayedText === "") {
+        this.isDeleting = false;
+
+        if (
+          this.currentTextIndex === this.texts.length - 1 &&
+          !this.options.loop
+        ) {
+          return;
+        }
+
+        this.currentTextIndex =
+          (this.currentTextIndex + 1) % this.texts.length;
+        this.currentCharIndex = 0;
+        this._applyTextColor();
+        this._setTimeout(() => this._tick(), this.options.typingSpeed);
+        return;
+      }
+
+      this.displayedText = this.displayedText.slice(0, -1);
+      this._render();
+      this._setTimeout(() => this._tick(), this.options.deletingSpeed);
+      return;
+    }
+
+    if (this.currentCharIndex < currentText.length) {
+      this.displayedText += currentText[this.currentCharIndex];
+      this.currentCharIndex++;
+      this._render();
+      this._setTimeout(() => this._tick(), this._getTypingSpeed());
+      return;
+    }
+
+    this._completeSentence();
+
+    if (
+      this.currentTextIndex === this.texts.length - 1 &&
+      !this.options.loop
+    ) {
+      return;
+    }
+
+    this._setTimeout(() => {
+      this.isDeleting = true;
+      this._tick();
+    }, this.options.pauseDuration);
+  }
+
+  start() {
+    if (this.isStarted || this.texts.length === 0) return;
+
+    this.isStarted = true;
+    this._setTimeout(() => this._tick(), this.options.initialDelay);
+  }
+
+  pause() {
+    this.isPaused = true;
+    clearTimeout(this.timeout);
+  }
+
+  resume() {
+    if (!this.isStarted || !this.isPaused) return;
+
+    this.isPaused = false;
+    this._setTimeout(() => this._tick(), this.options.typingSpeed);
+  }
+
+  destroy() {
+    clearTimeout(this.timeout);
+    if (this.observer) this.observer.disconnect();
+  }
+}
+
 /* ── Main class ── */
 class TypingTest {
   constructor() {
@@ -970,6 +1198,8 @@ class TypingTest {
     this.lineOffset = 0; // current px translateY applied to container
 
     /* -- DOM refs -- */
+    this.testSection = document.querySelector(".test-section");
+    this.testPrompt = document.getElementById("testPrompt");
     this.wordsWrapper = document.getElementById("wordsWrapper");
     this.wordsContainer = document.getElementById("wordsContainer");
     this.wordInput = document.getElementById("wordInput");
@@ -991,6 +1221,20 @@ class TypingTest {
     this.pbBanner = document.getElementById("pbBanner");
     this.tryAgainBtn = document.getElementById("tryAgainBtn");
     this.capsWarning = document.getElementById("capsWarning");
+    this.promptEffect = new TextType(this.testPrompt, {
+      text: [
+        "warm up with steady rhythm",
+        "accuracy first, speed follows",
+        "keep your eyes one word ahead",
+      ],
+      typingSpeed: 45,
+      deletingSpeed: 24,
+      pauseDuration: 1400,
+      cursorCharacter: "|",
+      cursorBlinkDuration: 0.55,
+      textColors: ["var(--main)", "var(--text)", "var(--sub)"],
+      variableSpeed: { min: 28, max: 72 },
+    });
 
     this._bindEvents();
     this._loadTheme();
@@ -1413,6 +1657,8 @@ class TypingTest {
     this.isActive = true;
     this.startTime = Date.now();
     this.liveStats.classList.add("visible");
+    this.testSection.classList.add("testing");
+    this.promptEffect.pause();
 
     if (this.mode === "time") {
       this.timeLeft = this.timeLimit;
@@ -1584,6 +1830,8 @@ class TypingTest {
       this.mode === "time" ? this.timeLimit : this.wordCount;
     this.liveCounterLbl.textContent = this.mode === "time" ? "s" : " left";
     this.liveStats.classList.remove("visible");
+    this.testSection.classList.remove("testing");
+    this.promptEffect.resume();
 
     this.wordsContainer.style.transform = "translateY(0)";
     this.resultsEl.classList.add("hidden");
